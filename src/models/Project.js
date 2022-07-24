@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const consts = require("../consts");
+const mongoose = require('mongoose');
+const validator = require('validator');
+const consts = require('../consts');
 
 var Schema = mongoose.Schema;
 
@@ -21,4 +21,4 @@ const projectsSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Project", projectsSchema);
+module.exports = mongoose.model('Project', projectsSchema);

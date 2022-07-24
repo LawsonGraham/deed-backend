@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const consts = require("../consts");
+const mongoose = require('mongoose');
+const validator = require('validator');
+const consts = require('../consts');
 
 var Schema = mongoose.Schema;
 
@@ -28,4 +28,4 @@ const nftsSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Nft", nftsSchema);
+module.exports = mongoose.model('Nft', nftsSchema);

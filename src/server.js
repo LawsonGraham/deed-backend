@@ -1,11 +1,11 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-const nftRouter = require("./routes/nftRouter");
-const projectRouter = require("./routes/projectRouter");
+const nftRouter = require('./routes/nftRouter');
+const projectRouter = require('./routes/projectRouter');
 
 const port = process.env.PORT ? process.env.PORT : 4000;
 console.log(process.env.MONGOOSE);
@@ -16,10 +16,10 @@ mongoose.connect(process.env.MONGOOSE, {
 });
 
 const db = mongoose.connection;
-db.once("open", () => {
-  console.log("DB connected successfully!");
+db.once('open', () => {
+  console.log('DB connected successfully!');
 });
-db.on("error", (err) => {
+db.on('error', (err) => {
   console.error(`Error while connecting to DB: ${err.message}`);
 });
 
@@ -27,12 +27,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "*",
+    origin: '*',
   })
 );
 
-app.use("/v1/nft/", nftRouter);
-app.use("/v1/project/", projectRouter);
+app.use('/v1/nft/', nftRouter);
+app.use('/v1/project/', projectRouter);
 
 // Get all events a user has gone to
 // app.get("/v1/userevents/:id", async function (req, res) {

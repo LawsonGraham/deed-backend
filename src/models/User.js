@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const consts = require("../consts");
+const mongoose = require('mongoose');
+const validator = require('validator');
+const consts = require('../consts');
 
 var Schema = mongoose.Schema;
 
@@ -19,7 +19,7 @@ const usersSchema = new Schema({
     unique: true,
     validate(value) {
       if (!validator.isEmail(value)) {
-        throw new Error("Email is invalid");
+        throw new Error('Email is invalid');
       }
     },
   },
@@ -29,7 +29,7 @@ const usersSchema = new Schema({
     unique: true,
     validate(value) {
       if (!validator.isEthereumAddress(value)) {
-        throw new Error("Address is invalid");
+        throw new Error('Address is invalid');
       }
     },
   },
@@ -38,10 +38,10 @@ const usersSchema = new Schema({
     required: true,
     validate(value) {
       if (!consts.roles.includes(value)) {
-        throw new Error("Role is invalid");
+        throw new Error('Role is invalid');
       }
     },
   },
 });
 
-module.exports = mongoose.model("User", usersSchema);
+module.exports = mongoose.model('User', usersSchema);

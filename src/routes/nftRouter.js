@@ -1,12 +1,12 @@
-const express = require("express");
-const Nft = require("../models/Nft");
+const express = require('express');
+const Nft = require('../models/Nft');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const router = express.Router();
 
 // Get specific event object, or many objects
-router.get("/", async function (req, res) {
+router.get('/', async function (req, res) {
   const { _id } = req.query;
 
   try {
@@ -19,11 +19,11 @@ router.get("/", async function (req, res) {
 });
 
 // Get all NFTs with project url
-router.get("/:url", async function (req, res) {
+router.get('/:url', async function (req, res) {
   const { url } = req.params;
   try {
     let nfts = await Nft.find({ projecturl: url });
-    if (!nfts) throw new Error("No record found.");
+    if (!nfts) throw new Error('No record found.');
 
     return res.status(200).json(nfts);
   } catch (err) {
@@ -32,7 +32,7 @@ router.get("/:url", async function (req, res) {
   }
 });
 
-router.post("/newEvent", async function (req, res) {
+router.post('/newEvent', async function (req, res) {
   const { startTimestamp, endTimestamp, name, type, imageUrl, qrCodeUrl } =
     req.body;
 
@@ -45,7 +45,7 @@ router.post("/newEvent", async function (req, res) {
     !qrCodeUrl
   ) {
     return res.status(400).json({
-      error: "Missing required fields",
+      error: 'Missing required fields',
     });
   }
 

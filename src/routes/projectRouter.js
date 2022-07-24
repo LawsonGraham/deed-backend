@@ -1,18 +1,17 @@
-const express = require("express");
-var bodyParser = require('body-parser')
-const Project = require("../models/Project");
+const express = require('express');
+var bodyParser = require('body-parser');
+const Project = require('../models/Project');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const router = express.Router();
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
-
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //// Users
 // B@B Users API
 ////
 
-router.get("/", async function (req, res) {
+router.get('/', async function (req, res) {
   const { id, url } = req.query;
 
   try {
@@ -23,7 +22,7 @@ router.get("/", async function (req, res) {
     if (url) {
       filter.url = url;
     }
-    
+
     let projects = await Project.find(filter);
     return res.status(200).json(projects);
   } catch (err) {
@@ -33,11 +32,11 @@ router.get("/", async function (req, res) {
 });
 
 // Get all event ids a user has been to
-router.get("/:url", async function (req, res) {
+router.get('/:url', async function (req, res) {
   const { url } = req.params;
   try {
     let project = await Project.findOne({ url: url });
-    if (!project) throw new Error("No record found.");
+    if (!project) throw new Error('No record found.');
 
     return res.status(200).json(project);
   } catch (err) {
@@ -46,16 +45,16 @@ router.get("/:url", async function (req, res) {
   }
 });
 
-router.post("/newProject", urlencodedParser, async function (req, res) {
+router.post('/newProject', urlencodedParser, async function (req, res) {
   const { id, name, coverImage, url } = req.body;
 
   if (!name || !coverImage || !url) {
     return res.status(400).json({
-      error: "Missing required fields",
+      error: 'Missing required fields',
       name: name,
       coverImage: coverImage,
       url: url,
-      test: 'test'
+      test: 'test',
     });
   }
 
@@ -74,15 +73,15 @@ router.post("/newProject", urlencodedParser, async function (req, res) {
   }
 });
 
-router.post("/attendEvent", async function (req, res) {
+router.post('/attendEvent', async function (req, res) {
   const { address, eventId } = req.body;
 
   try {
     let user = User.findOne({ address });
-    if (!user) throw new Error("No user found.");
+    if (!user) throw new Error('No user found.');
 
     let event = Event.findOne({ _id: eventId });
-    if (!event) throw new Error("No event found.");
+    if (!event) throw new Error('No event found.');
 
     var newUserEvent = new UserEvent({
       userId: user._id,

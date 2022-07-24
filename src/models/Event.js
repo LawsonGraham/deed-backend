@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const consts = require("../consts");
-const validator = require("validator");
+const mongoose = require('mongoose');
+const consts = require('../consts');
+const validator = require('validator');
 
 const Schema = mongoose.Schema;
 
@@ -22,7 +22,7 @@ const eventsSchema = new Schema({
     require: true,
     validate(value) {
       if (!consts.eventTypes.includes(value)) {
-        throw new Error("Event type is invalid");
+        throw new Error('Event type is invalid');
       }
     },
   },
@@ -35,7 +35,7 @@ const eventsSchema = new Schema({
     require: true,
     validate(value) {
       if (!validator.isURL(value)) {
-        throw new Error("Image URL is invalid");
+        throw new Error('Image URL is invalid');
       }
     },
   },
@@ -55,4 +55,4 @@ const eventsSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Event", eventsSchema);
+module.exports = mongoose.model('Event', eventsSchema);
