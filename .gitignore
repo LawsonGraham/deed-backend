@@ -6,7 +6,7 @@ typechain
 typechain-types
 
 #Hardhat files
-cache
-artifacts
+blockchain/cache
+blockchain/artifacts
 
 .DS_Store
