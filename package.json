@@ -4,19 +4,30 @@
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.7.0",
     "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
     "chai": "^4.3.6",
+    "dotenv": "^16.0.1",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.9",
     "hardhat": "^2.10.0",
     "ipfs-http-client": "^57.0.3",
+    "mongodb": "^4.8.0",
+    "mongoose": "^6.4.6",
+    "validator": "^13.7.0",
     "web3modal": "^1.9.8"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "json-server": "^0.17.0",
-    "prettier": "2.7.1"
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1"
   },
   "scripts": {
-    "backend": "json-server --watch mockServer/db.json --port 8000"
+    "backend": "json-server --watch mockServer/db.json --port 8000",
+    "prettier:fix": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "start": "node src/server.js",
+    "start:dev": "nodemon -r dotenv/config src/server.js",
+    "dev": "nodemon src/server.js"
   }
 }
