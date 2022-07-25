@@ -5,12 +5,20 @@ require('dotenv').config();
 
 const router = express.Router();
 
-// Get specific event object, or many objects
+// Get specific nft by query
 router.get('/', async function (req, res) {
-  const { _id } = req.query;
+  const { address, projecturl } = req.query;
 
   try {
-    let nfts = await Nft.find(_id ? { _id } : {});
+    let filter = {};
+    if (address) {
+      filter.address = address;
+    }
+    if (projecturl) {
+      filter.projecturl = projecturl;
+    }
+
+    let nfts = await Nft.find(filter);
     return res.status(200).json(nfts);
   } catch (err) {
     console.log(err);
@@ -19,7 +27,7 @@ router.get('/', async function (req, res) {
 });
 
 // Get all NFTs with project url
-router.get('/:url', async function (req, res) {
+router.get('/project/:url', async function (req, res) {
   const { url } = req.params;
   try {
     let nfts = await Nft.find({ projecturl: url });
@@ -32,36 +40,53 @@ router.get('/:url', async function (req, res) {
   }
 });
 
-router.post('/newEvent', async function (req, res) {
-  const { startTimestamp, endTimestamp, name, type, imageUrl, qrCodeUrl } =
+
+// Get specific NFT by Address
+router.get('/:nftAddress', async function (req, res) {
+  const { nftAddress } = req.params;
+  console.log(nftAddress)
+  try {
+    let foundNFT = await Nft.findOne({ address: nftAddress });
+    if (!foundNFT) throw new Error('No record found.');
+
+    return res.status(200).json(foundNFT);
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json(err);
+  }
+});
+
+router.post('/newNFT', async function (req, res) {
+  const { address, nftName, imageLink, projecturl, transactions } =
     req.body;
 
   if (
-    !startTimestamp ||
-    !endTimestamp ||
-    !name ||
-    !type ||
-    !imageUrl ||
-    !qrCodeUrl
+    !address ||
+    !nftName ||
+    !imageLink ||
+    !projecturl ||
+    !transactions
   ) {
     return res.status(400).json({
       error: 'Missing required fields',
+      address: address,
+      nftName,
+      imageLink,
+      projecturl,
+      transactions
     });
   }
 
   try {
-    let nftId = await Event.countDocuments();
-    let new_event = new Event({
-      startTimestamp,
-      endTimestamp,
-      name,
-      type,
-      imageUrl,
-      qrCodeUrl,
-      nftId,
+    let new_nft = new Nft({
+      address,
+      nftName,
+      imageLink,
+      projecturl,
+      transactions,
     });
-    await new_event.save();
-    return res.status(200).json(new_event);
+    await new_nft.save();
+    return res.status(200).json(new_nft);
   } catch (err) {
     console.log(err);
     return res.status(400).json(err);

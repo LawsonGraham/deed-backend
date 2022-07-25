@@ -1,11 +1,9 @@
 const express = require('express');
-var bodyParser = require('body-parser');
 const Project = require('../models/Project');
 
 require('dotenv').config();
 
 const router = express.Router();
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //// Users
 // B@B Users API
@@ -45,16 +43,12 @@ router.get('/:url', async function (req, res) {
   }
 });
 
-router.post('/newProject', urlencodedParser, async function (req, res) {
-  const { id, name, coverImage, url } = req.body;
+router.post('/newProject', async function (req, res) {
+  const { id, name, coverImage, url, address } = req.body;
 
   if (!name || !coverImage || !url) {
     return res.status(400).json({
       error: 'Missing required fields',
-      name: name,
-      coverImage: coverImage,
-      url: url,
-      test: 'test',
     });
   }
 
@@ -62,6 +56,7 @@ router.post('/newProject', urlencodedParser, async function (req, res) {
     var new_project = new Project({
       id,
       name,
+      address,
       coverImage,
       url,
     });

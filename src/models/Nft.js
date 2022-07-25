@@ -5,9 +5,14 @@ const consts = require('../consts');
 var Schema = mongoose.Schema;
 
 const nftsSchema = new Schema({
-  id: {
-    type: Number,
+  address: {
+    type: String,
     required: true,
+    validate(value) {
+      if (!validator.isEthereumAddress(value)) {
+        throw new Error('Address is invalid');
+      }
+    },
   },
   nftName: {
     type: String,
