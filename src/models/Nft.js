@@ -31,6 +31,13 @@ const nftsSchema = new Schema({
     type: Array,
     required: true,
   },
+  price: {
+    type: Number,
+  },
+  owner: {
+    type: String,
+    require: true
+  }
 });
 
 module.exports = mongoose.model('Nft', nftsSchema);

@@ -22,7 +22,7 @@ router.get('/', async function (req, res) {
     return res.status(200).json(nfts);
   } catch (err) {
     console.log(err);
-    return res.status(200).json(err);
+    return res.status(404).json(err);
   }
 });
 
@@ -36,10 +36,24 @@ router.get('/project/:url', async function (req, res) {
     return res.status(200).json(nfts);
   } catch (err) {
     console.log(err);
-    return res.status(200).json(err);
+    return res.status(404).json(err);
   }
 });
 
+// Get all NFTs with owner's address
+router.get('/owner/:ownerAddress', async function (req, res) {
+  const { ownerAddress } = req.params;
+  console.log(ownerAddress)
+  try {
+    let ownerNFTs = await Nft.find({ owner: ownerAddress });
+    if (!ownerNFTs) throw new Error('No record found.');
+
+    return res.status(200).json(ownerNFTs);
+  } catch (err) {
+    console.log(err);
+    return res.status(404).json(err);
+  }
+});
 
 // Get specific NFT by Address
 router.get('/:nftAddress', async function (req, res) {
@@ -52,7 +66,7 @@ router.get('/:nftAddress', async function (req, res) {
     return res.status(200).json(foundNFT);
   } catch (err) {
     console.log(err);
-    return res.status(200).json(err);
+    return res.status(404).json(err);
   }
 });
 
@@ -93,4 +107,30 @@ router.post('/newNFT', async function (req, res) {
   }
 });
 
+router.patch('/patchNFTPrice', async function (req, res) {
+  const { address, price } =
+    req.body;
+
+    console.log(address + ' ' + price)
+  if (
+    !address ||
+    !price
+  ) {
+    return res.status(400).json({
+      error: 'Missing required fields',
+    });
+  }
+
+  try {
+    let updated_NFT = await Nft.updateOne({ address: address }, {
+      $set: {
+        price: price
+      }
+    });
+    return res.status(200).json(updated_NFT);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err);
+  }
+});
 module.exports = router;
