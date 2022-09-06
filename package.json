@@ -11,8 +11,8 @@
     "ethers": "^5.6.9",
     "hardhat": "^2.10.0",
     "ipfs-http-client": "^57.0.3",
-    "mongodb": "^4.8.0",
-    "mongoose": "^6.4.6",
+    "mongodb": "^4.9.0",
+    "mongoose": "^6.5.3",
     "validator": "^13.7.0",
     "web3modal": "^1.9.8"
   },
@@ -23,7 +23,6 @@
     "prettier": "^2.7.1"
   },
   "scripts": {
-    "backend": "json-server --watch mockServer/db.json --port 8000",
     "prettier:fix": "prettier --write .",
     "prettier:check": "prettier --check .",
     "start": "node src/server.js",

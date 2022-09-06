@@ -10,7 +10,8 @@ const router = express.Router();
 ////
 
 router.get('/', async function (req, res) {
-  const { id, url } = req.query;
+  console.log(req.query)
+  const { id, url, location, endDate, raiseGoal, owner } = req.query;
 
   try {
     let filter = {};
@@ -20,7 +21,28 @@ router.get('/', async function (req, res) {
     if (url) {
       filter.url = url;
     }
-
+    if (location) {
+      console.log(location)
+      filter.location = location;
+    }
+    if (raiseGoal) {
+      if (raiseGoal.indexOf("-") > 0) {
+        const splitArr = raiseGoal.split("-");
+        splitArr[0] = splitArr[0].replaceAll(' ', '').replaceAll(/,/g, '');
+        splitArr[1] = splitArr[1].replaceAll(' ', '').replaceAll(/,/g, '');
+        filter.raiseGoal = { "$gt" :  parseInt(splitArr[0]), "$lt" : parseInt(splitArr[1])}
+      } else {
+        r = raiseGoal.replaceAll(/,/g, '').replace("+", '');
+        console.log(typeof parseInt(r))
+        filter.raiseGoal = { "$gt" :  parseInt(r)}
+      }
+    }
+    if (endDate) {
+      console.log('end')
+    }
+    if (owner) {
+      filter.owner = owner
+    }
     let projects = await Project.find(filter);
     return res.status(200).json(projects);
   } catch (err) {

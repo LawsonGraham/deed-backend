@@ -21,6 +21,30 @@ const projectsSchema = new Schema({
     required: true,
     unique: true,
   },
+  location: {
+    type: String,
+    required: true,
+  },
+  totalShares: {
+    type: Number,
+    required: true,
+  },
+  raiseGoal: {
+    type: Number,
+    required: true,
+  },
+  raiseCurrent: {
+    type: Number,
+    required: true,
+  },
+  endDate: {
+    type: String,
+    required: true,
+  },
+  owner: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Project', projectsSchema);
