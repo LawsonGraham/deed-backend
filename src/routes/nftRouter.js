@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Get specific nft by query
 router.get('/', async function (req, res) {
-  const { address, projecturl } = req.query;
+  const { address, projecturl, owner } = req.query;
 
   try {
     let filter = {};
@@ -17,7 +17,6 @@ router.get('/', async function (req, res) {
     if (projecturl) {
       filter.projecturl = projecturl;
     }
-
     let nfts = await Nft.find(filter);
     return res.status(200).json(nfts);
   } catch (err) {
@@ -41,7 +40,26 @@ router.get('/project/:url', async function (req, res) {
 });
 
 // Get all NFTs with owner's address
-router.get('/owner/:ownerAddress', async function (req, res) {
+router.get('/owner/', async function (req, res) {
+  const { owner } = req.query;
+  let filter = {};
+
+  if (owner) {
+    filter.owner = owner;
+  }
+  try {
+    let ownerNFTs = await Nft.find(filter);
+    if (!ownerNFTs) throw new Error('No record found.');
+
+    return res.status(200).json(ownerNFTs);
+  } catch (err) {
+    console.log(err);
+    return res.status(404).json(err);
+  }
+});
+
+// Get all NFTs with owner's address
+router.get('/owner/', async function (req, res) {
   const { ownerAddress } = req.params;
   console.log(ownerAddress)
   try {
