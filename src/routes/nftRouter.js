@@ -88,8 +88,9 @@ router.get('/:nftAddress', async function (req, res) {
   }
 });
 
-router.post('/newNFT', async function (req, res) {
-  const { address, nftName, imageLink, projecturl, transactions } =
+router.post('/newNFT', express.raw({ inflate: true, limit: '50mb', type: () => true }), async function (req, res) {
+  console.log(req.body)
+  const { address, nftName, imageLink, projecturl, transactions, price, owner, discount } =
     req.body;
 
   if (
@@ -97,15 +98,21 @@ router.post('/newNFT', async function (req, res) {
     !nftName ||
     !imageLink ||
     !projecturl ||
-    !transactions
+    !transactions ||
+    !price ||
+    !owner ||
+    !discount
   ) {
     return res.status(400).json({
       error: 'Missing required fields',
-      address: address,
+      address,
       nftName,
       imageLink,
+      transactions,
+      price,
       projecturl,
-      transactions
+      owner,
+      discount
     });
   }
 
@@ -116,6 +123,9 @@ router.post('/newNFT', async function (req, res) {
       imageLink,
       projecturl,
       transactions,
+      price,
+      owner,
+      discount
     });
     await new_nft.save();
     return res.status(200).json(new_nft);

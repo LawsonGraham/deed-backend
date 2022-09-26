@@ -30,6 +30,9 @@ app.use(
     origin: '*',
   })
 );
+app.use(
+  bodyParser.json()
+);
 
 app.use('/v1/nft/', nftRouter);
 app.use('/v1/project/', projectRouter);

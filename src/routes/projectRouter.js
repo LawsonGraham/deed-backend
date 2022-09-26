@@ -66,9 +66,9 @@ router.get('/:url', async function (req, res) {
 });
 
 router.post('/newProject', async function (req, res) {
-  const { id, name, coverImage, url, address } = req.body;
+  const { id, name, coverImage, url, address, projectInfo, nftsNum, totalTransactions, raiseCurrent, raiseGoal, totalShares, location, endDate, owner, startDate, minInvestment } = req.body;
 
-  if (!name || !coverImage || !url) {
+  if (!name || !coverImage || !url || !address || !projectInfo || !totalTransactions || !raiseCurrent || !raiseGoal || !totalShares || !location || !endDate || !owner || !startDate || !minInvestment) {
     return res.status(400).json({
       error: 'Missing required fields',
     });
@@ -81,6 +81,16 @@ router.post('/newProject', async function (req, res) {
       address,
       coverImage,
       url,
+      projectInfo, 
+      totalTransactions, 
+      raiseCurrent, 
+      raiseGoal, 
+      totalShares, 
+      location, 
+      endDate, 
+      owner, 
+      startDate, 
+      minInvestment
     });
     await new_project.save();
     return res.status(200).json(new_project);

@@ -45,6 +45,22 @@ const projectsSchema = new Schema({
     type: String,
     required: true,
   },
+  startDate: {
+    type: String,
+    required: true,
+  },
+  projectInfo: {
+    type: String,
+    required: true,
+  },
+  totalTransactions: {
+    type: String,
+    required: true,
+  },
+  minInvestment: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Project', projectsSchema);
